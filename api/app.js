@@ -30,22 +30,14 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:8080';
 app.use(express.static('public'));
 // use method override to allow all method types
 app.use(methodOverride('_method'));
-// populates req.body with parsed info from forms - if no data from forms will return an empty object {}
+// populates req.body with parsed info from forms
+// if no data from forms will return an empty object {}
 app.use(express.urlencoded({ extended: true }));
 // only parses JSON
 app.use(express.json());
 
 // Connect to Mongo
-mongoose.connect(
-  MONGODB_URI,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  },
-  () => {
-    console.log('MongoDB URI:', MONGODB_URI);
-  }
-);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Error / success
 db.on('error', (err) => console.error('ERROR:', err.message));
@@ -55,8 +47,8 @@ db.on('disconnected', () => console.warn('Mongo disconnected'));
 // ───────────────────
 // Controllers
 // ───────────────────
-const userController = require('./controllers/user.js');
-app.use('/user', userController);
+const jokeController = require('./controllers/joke.js');
+app.use('api/joke', jokeController);
 
 // ───────────────────
 // Routes
