@@ -1,3 +1,3 @@
-# MERN Template
+# Jokes
 
-A template repository for a MERN stack application ready to be deployed
+An app to make you laugh
