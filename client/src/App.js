@@ -5,28 +5,32 @@ import Joke from './components/Joke';
 import VoteButton from './components/VoteButton';
 
 function App () {
-  const [currentJoke, setCurrentJoke] = useState();
+  const [joke, setJoke] = useState();
+  const [stats, setStats] = useState({});
 
   const getJoke = async () => {
     try {
-      const response = await axios('https://official-joke-api.appspot.com/random_joke');
-      setCurrentJoke(response.data);
+      const response = await axios.get('http://localhost:4000/api/joke/random');
+      setJoke(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setStats({});
     }
   };
+  useEffect(() => getJoke(), []);
 
-  useEffect(() => {
-    getJoke();
-  }, []);
+  const handleVote = async () => {
+
+  };
 
   return (
     <div className='app'>
-      {currentJoke
+      {joke
         ? (
           <Joke
-            setup={currentJoke.setup}
-            punchline={currentJoke.punchline}
+            setup={joke.setup}
+            punchline={joke.punchline}
           />
           )
         : (
@@ -37,8 +41,8 @@ function App () {
           )}
       <br aria-hidden='true' />
       <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-        <VoteButton down />
-        <VoteButton up />
+        <VoteButton down handleVote={handleVote} />
+        <VoteButton up handleVote={handleVote} />
       </div>
     </div>
   );

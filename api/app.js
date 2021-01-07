@@ -4,6 +4,7 @@
 const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // Configuration
 require('dotenv').config();
@@ -35,6 +36,8 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 // only parses JSON
 app.use(express.json());
+// enable cross origin resource sharing
+app.use(cors());
 
 // Connect to Mongo
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -48,7 +51,7 @@ db.on('disconnected', () => console.warn('Mongo disconnected'));
 // Controllers
 // ───────────────────
 const jokeController = require('./controllers/joke.js');
-app.use('api/joke', jokeController);
+app.use('/api/joke', jokeController);
 
 // ───────────────────
 // Routes

@@ -4,7 +4,7 @@ import {
   MdThumbDown as ThumbDown
 } from 'react-icons/md';
 
-export default ({ up, down, handleClick }) => {
+export default ({ up, down, handleVote }) => {
   // default to up (true) if none or both are specified
   const isUp = up || !down;
 
@@ -24,7 +24,7 @@ export default ({ up, down, handleClick }) => {
   `;
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={() => handleVote(isUp ? 'up' : 'down')}>
       {
         isUp
           ? <ThumbUp />

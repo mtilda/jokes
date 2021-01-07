@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export default ({ setup, punchline }) => {
-  const [showPunchline, setShowPunchline] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  useEffect(() => setIsRevealed(false), [setup, punchline]);
 
   const Setup = styled.h1``;
   const Punchline = styled.h2`
     width: fit-content;
     padding: 10px;
     border-radius: 10px;
-    background-color: ${showPunchline ? 'none' : 'black'};
-    color: ${showPunchline ? '#E6D0EE' : 'black'};
+    background-color: ${isRevealed ? 'none' : 'black'};
+    color: #E6D0EE;
     user-select: none;
   `;
 
@@ -22,9 +24,8 @@ export default ({ setup, punchline }) => {
       <label for='punchline' className='sr-only'>punchline</label>
       <Punchline
         id='punchline'
-        onMouseEnter={() => setShowPunchline(true)}
-        onMouseLeave={() => setShowPunchline(false)}
-      >{punchline}
+        onClick={() => setIsRevealed(true)}
+      >{isRevealed ? punchline : 'Click for the punchline'}
       </Punchline>
     </>
   );
