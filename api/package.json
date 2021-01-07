@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "engine": {
+    "node": "14.15.3"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongodb": "^3.5.4",
+    "mongoose": "^5.9.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
