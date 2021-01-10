@@ -15,21 +15,22 @@ joke.get('/random', async (req, res) => {
   }
 });
 
-// index jokes
-joke.get('/', (req, res) => {
+// submit joke vote
+joke.put('/vote', async (req, res) => {
+  console.log(req.body);
+  if (!req.body.vote) res.status(400).json('no vote detected');
   try {
-    const jokes = Joke.find({});
-    res.status(200).json(jokes);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-// show joke
-joke.get('/:id', (req, res) => {
-  try {
-    const joke = Joke.find(req.params.id);
-    res.status(200).json(joke);
+    // find joke
+    const joke = Joke.find({ setup: req.body.setup });
+    // if joke exists
+    if (joke) {
+      // add the vote to it
+      const newJoke = Joke.findByIdAndUpdate(joke.id, { ...joke, votes: [...joke.votes, req.body.vote] });
+    }
+    // else
+    // create the joke and add the vote
+    console.log(joke);
+    res.status(200).json({});
   } catch (error) {
     res.status(400).json(error);
   }
