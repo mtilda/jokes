@@ -4,8 +4,8 @@ import Joke from '../components/Joke';
 import VoteButton from '../components/VoteButton';
 
 export default () => {
-  const [joke, setJoke] = useState();
-  const [stats, setStats] = useState({});
+  const [joke, setJoke] = useState({});
+  const [vote, setVote] = useState('');
 
   const getJoke = async () => {
     try {
@@ -13,33 +13,30 @@ export default () => {
       setJoke(response.data);
     } catch (error) {
       console.error(error);
-    } finally {
-      setStats({});
     }
   };
   useEffect(() => getJoke(), []);
 
   const handleVote = async (vote) => {
     try {
-      const response = await axios.put('http://localhost:4000/api/joke/vote',
+      await axios.put('http://localhost:4000/api/joke/vote',
         {
           officialJokeApiId: joke.id,
           type: joke.type,
           setup: joke.setup,
           punchline: joke.punchline,
           vote: vote
-        });
-      console.log(response.data);
+        }
+      );
+      setVote(vote);
     } catch (error) {
       console.error(error);
-    } finally {
-      setStats({});
     }
   };
 
   return (
     <>
-      {joke
+      {joke.setup
         ? (
           <Joke
             setup={joke.setup}

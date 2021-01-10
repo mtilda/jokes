@@ -8,7 +8,6 @@ joke.get('/random', async (req, res) => {
   try {
     const jokePromise = await axios.get('https://official-joke-api.appspot.com/random_joke');
     const joke = jokePromise.data;
-    console.log(joke);
     res.status(200).json(joke);
   } catch (error) {
     res.status(400).json(error);
@@ -20,14 +19,12 @@ joke.put('/vote', async (req, res) => {
   console.log('body', req.body);
   if (!req.body.vote) {
     res.status(400).json('no vote detected');
-    console.log('no vote');
   } else {
     try {
       // find joke
       const joke = await Joke.findOne({ setup: req.body.setup });
       // if joke exists
       if (joke) {
-        console.log('joke found', joke);
         // add the vote to it
         const updatedJoke = await Joke.findByIdAndUpdate(joke.id, {
           votes: [
@@ -42,8 +39,6 @@ joke.put('/vote', async (req, res) => {
             }
           ]
         });
-        console.log('vote added to joke');
-        console.log(updatedJoke);
         res.status(200).json(updatedJoke);
       } else {
         console.log('joke not found');
@@ -62,8 +57,6 @@ joke.put('/vote', async (req, res) => {
                   : 0
           }]
         });
-        console.log('joke created');
-        console.log(newJoke);
         res.status(200).json(newJoke);
       }
     } catch (error) {
