@@ -1,4 +1,4 @@
-import Button from '../ui/Button';
+import CircleButton from '../ui/CircleButton';
 import {
   MdThumbUp as ThumbUp,
   MdThumbDown as ThumbDown
@@ -9,8 +9,8 @@ export default ({ up, down, handleVote }) => {
   const isUp = up || !down;
 
   return (
-    <Button
-      size='100px'
+    <CircleButton
+      size='150px'
       color={isUp ? '#B7E1CD' : '#F5BC8D'}
       hoverColor={isUp ? '#6BAA8C' : '#F48024'}
       onClick={() => handleVote(isUp ? 'up' : 'down')}
@@ -20,6 +20,6 @@ export default ({ up, down, handleVote }) => {
           ? <ThumbUp />
           : <ThumbDown />
       }
-    </Button>
+    </CircleButton>
   );
 };
