@@ -7,7 +7,7 @@ const voteSchema = new Schema({
     required: true,
     validate: [(value) => value === 0 || Math.abs(value) === 1, 'vote must be -1, 0, or +1']
   },
-  dateTime: { type: Date, required: true }
+  dateTime: { type: Date, required: false }
 });
 
 const jokeSchema = new Schema({

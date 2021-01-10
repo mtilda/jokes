@@ -17,24 +17,55 @@ joke.get('/random', async (req, res) => {
 
 // submit joke vote
 joke.put('/vote', async (req, res) => {
-  console.log(req.body);
-  if (!req.body.vote) res.status(400).json('no vote detected');
-  else {
+  console.log('body', req.body);
+  if (!req.body.vote) {
+    res.status(400).json('no vote detected');
+    console.log('no vote');
+  } else {
     try {
       // find joke
-      const joke = Joke.find({ setup: req.body.setup });
+      const joke = await Joke.findOne({ setup: req.body.setup });
       // if joke exists
       if (joke) {
+        console.log('joke found', joke);
         // add the vote to it
-        const newJoke = Joke.findByIdAndUpdate(joke.id, { ...joke, votes: [...joke.votes, req.body.vote] });
-        res.status(200).json(newJoke);
+        const updatedJoke = await Joke.findByIdAndUpdate(joke.id, {
+          votes: [
+            ...joke.votes,
+            {
+              value:
+                req.body.vote === 'up'
+                  ? 1
+                  : req.body.vote === 'down'
+                    ? -1
+                    : 0
+            }
+          ]
+        });
+        console.log('vote added to joke');
+        console.log(updatedJoke);
+        res.status(200).json(updatedJoke);
       } else {
+        console.log('joke not found');
         // create the joke and add the vote
-        const newJoke = Joke.create({ ...req.body, vote: [req.body.vote] });
+        const newJoke = await Joke.create({
+          officialJokeApiId: req.body.officialJokeApiId,
+          type: req.body.type,
+          setup: req.body.setup,
+          punchline: req.body.punchline,
+          votes: [{
+            value:
+              req.body.vote === 'up'
+                ? 1
+                : req.body.vote === 'down'
+                  ? -1
+                  : 0
+          }]
+        });
+        console.log('joke created');
+        console.log(newJoke);
         res.status(200).json(newJoke);
       }
-      console.log(joke);
-      res.status(200).json({});
     } catch (error) {
       res.status(400).json(error);
     }
