@@ -20,8 +20,22 @@ function App () {
   };
   useEffect(() => getJoke(), []);
 
-  const handleVote = async () => {
-
+  const handleVote = async (vote) => {
+    try {
+      const response = await axios.put('http://localhost:4000/api/joke/vote',
+        {
+          officialJokeApiId: joke.id,
+          type: joke.type,
+          setup: joke.setup,
+          punchline: joke.punchline,
+          vote: vote
+        });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setStats({});
+    }
   };
 
   return (
