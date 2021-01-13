@@ -60,7 +60,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
 
-  :hover, :focus {
+  ${({ hover }) => !hover} {
     background-color: ${({ hoverColor }) => hoverColor};
   }
 
