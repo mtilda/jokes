@@ -42,7 +42,7 @@ export default () => {
   return (
     <>
       {activity
-        ? <ActivityIndicator type='sentry' speed={0.5} />
+        ? <ActivityIndicator type='sentry' size='100px' speed={0.5} />
         : (
           <>
             {joke.setup
